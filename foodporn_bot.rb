@@ -19,19 +19,17 @@ end
 
 client = Tumblr::Client.new
 
-
-::FoodpornBot = TelegramBotWrapper.new CONFIG['telegram']['token'] 
+::FoodpornBot = TelegramBotWrapper.new CONFIG['telegram']['token']
 
 bot = FoodpornBot
 bot.start_thread
-
 
 bot.on_receive do |message|
   if message.photo.any?
     LOGGER.debug("received file with id: #{message.photo.first.file_id}")
     file = bot.get_file file_id: message.photo.last.file_id
     LOGGER.debug("file path: #{file}")
-    p client.photo("archfoodporn.tumblr.com", {:data => [file]}) 
+    p client.photo('archfoodporn.tumblr.com', data: [file])
   end
 end
 
