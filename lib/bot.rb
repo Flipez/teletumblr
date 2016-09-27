@@ -7,7 +7,7 @@ class TelegramBotWrapper
 
   Thread::abort_on_exception = true
 
-  attr_accessor :bot, :callbacks, :message, :thread, :token, :action, :done, :action
+  attr_accessor :bot, :callbacks, :message, :thread, :token
 
   def initialize(token)
     self.bot = nil
@@ -15,8 +15,6 @@ class TelegramBotWrapper
     self.message = nil
     self.token = token 
     self.thread = nil
-    self.action = nil
-    self.done
   end
 
   def exit
@@ -34,10 +32,9 @@ class TelegramBotWrapper
                       self.bot.listen do |message|
                         ::LOGGER.debug("#{message.from.username}: #{message.text}")
                         self.message = message
-                        self.done = false
                         self.callbacks.each do |callback|
                           begin
-                            callback.call message unless self.done
+                            callback.call message
                           rescue Exception => e
                            ::LOGGER.error(e)
                           end
@@ -74,6 +71,5 @@ class TelegramBotWrapper
   def send text: nil, chat_id: message.chat.id, mode: 'HTML'
     text = text.encode(Encoding::UTF_8)
     self.bot.api.send_message(chat_id: chat_id, text: text, parse_mode: mode)
-    self.done = true
   end
 end
