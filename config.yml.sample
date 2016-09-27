@@ -1,0 +1,10 @@
+---
+tumblr:
+  consumer:
+    key: 'key'
+    secret: 'secret'
+  oauth:
+    token: 'token'
+    secret: 'secret'
+telegram:
+  token: 'token'
