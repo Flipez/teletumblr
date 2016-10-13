@@ -6,7 +6,7 @@ class TelegramBotWrapper
 
   Thread.abort_on_exception = true
 
-  attr_accessor :bot, :callbacks, :message, :thread, :token
+  attr_accessor :bot, :callbacks, :message, :thread, :token, :skip_users
 
   def initialize(token)
     self.bot = nil
@@ -14,6 +14,7 @@ class TelegramBotWrapper
     self.message = nil
     self.token = token
     self.thread = nil
+    self.skip_users = []
   end
 
   def exit

@@ -24,11 +24,31 @@ bot = FoodpornBot
 bot.start_thread
 
 bot.on_receive do |message|
+  user = message.from.username
   if message.photo.any?
-    LOGGER.debug("received file with id: #{message.photo.first.file_id}")
-    file = bot.get_file file_id: message.photo.last.file_id
-    LOGGER.debug("file path: #{file}")
-    p client.photo('archfoodporn.tumblr.com', data: [file])
+    if bot.skip_users.include? user
+      bot.send text: "Skipped image from #{user}"
+      bot.skip_users.delete(user)
+      return false
+    else
+      LOGGER.debug("received file with id: #{message.photo.last.file_id}")
+      file = bot.get_file file_id: message.photo.last.file_id
+      LOGGER.debug("file path: #{file}")
+      p client.photo('archfoodporn.tumblr.com', data: [file])
+   end
+  end
+end
+
+bot.on_receive do |message|
+  case message.text
+  when '/about'
+    bot.send text: 'Yes, this is bot!'
+  when '/skip_next'
+    user = message.from.username
+    bot.skip_users.push(user) unless bot.skip_users.include? user
+    bot.send text: "Will skip next image from #{user}"
+  when '/skip_users'
+    bot.send text: bot.skip_users.inspect
   end
 end
 
