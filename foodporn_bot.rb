@@ -4,16 +4,15 @@ require 'yaml'
 require 'tumblr_client'
 
 LOGGER = Logger.new('log/foodporn.log')
-CHAT_LOGGER = Logger.new('log/foodporn.log')
 
 CONFIG = YAML.load_file('config.yml')
 
 require_relative 'lib/bot.rb'
 
 Tumblr.configure do |config|
-  config.consumer_key = CONFIG['tumblr']['consumer']['key']
-  config.consumer_secret = CONFIG['tumblr']['consumer']['secret']
-  config.oauth_token = CONFIG['tumblr']['oauth']['token']
+  config.consumer_key       = CONFIG['tumblr']['consumer']['key']
+  config.consumer_secret    = CONFIG['tumblr']['consumer']['secret']
+  config.oauth_token        = CONFIG['tumblr']['oauth']['token']
   config.oauth_token_secret = CONFIG['tumblr']['oauth']['secret']
 end
 
