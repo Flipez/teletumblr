@@ -35,7 +35,7 @@ bot.on_receive do |message|
       file = bot.get_file file_id: message.photo.last.file_id
       LOGGER.debug("file path: #{file}")
       p client.photo('archfoodporn.tumblr.com', data: [file])
-   end
+    end
   end
 end
 
