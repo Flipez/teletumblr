@@ -46,9 +46,14 @@ bot.on_receive do |message|
   when '/skip_next'
     user = message.from.username
     bot.skip_users.push(user) unless bot.skip_users.include? user
-    bot.send text: "Will skip next image from #{user}"
+    bot.send text: "Will skip the next image from #{user}"
   when '/skip_users'
-    bot.send text: bot.skip_users.inspect
+    if bot.skip_users.to_a.any?
+      msg = "Will skip the next image from: #{bot.skip_users.join(',')}"
+      bot.send text: msg
+    else
+      bot.send text: 'All images will be forwarded'
+    end
   end
 end
 
