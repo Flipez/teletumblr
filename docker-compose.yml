@@ -1,0 +1,8 @@
+version: '3'
+services:
+  archbot:
+    build: .
+    restart: always
+    volumes:
+      - ./config.yml:/app/config.yml
+      - ./log/:/app/log/
