@@ -29,16 +29,17 @@ class TelegramBotWrapper
     self.thread = Thread.new do
       Telegram::Bot::Client.run(token) do |bot|
         self.bot = bot
-        self.bot.listen do |message|
-          ::LOGGER.debug("#{message.from.username}: #{message.text}")
-          self.message = message
-          callbacks.each do |callback|
-            begin
+        begin
+          self.bot.listen do |message|
+            ::LOGGER.debug("#{message.from.username}: #{message.text}")
+            self.message = message
+            callbacks.each do |callback|
               callback.call message
-            rescue Exception => e
-              ::LOGGER.error(e)
             end
           end
+        rescue Exception => e
+          ::LOGGER.error(e)
+          retry
         end
       end
     end
